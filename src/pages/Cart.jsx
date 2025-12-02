@@ -1,5 +1,6 @@
 import React, {useContext} from 'react'
 import { CartContext } from '../context/CartContext';
+import Swal from 'sweetalert2';
 
 const Cart = () => {
 
@@ -7,6 +8,41 @@ const Cart = () => {
 
     const calculateTotal = () => {
         return shoppingList.reduce((total, product) => total + product.price * product.quantity, 0);
+    }
+
+    const handlerPurchase = () => {
+        // Crear una lista HTML de los productos
+        const productsList = shoppingList.map(product => 
+            `<div style="text-align: left; margin: 10px 0; padding: 10px; border-bottom: 1px solid #ddd;">
+                <strong>${product.title}</strong><br/>
+                Cantidad: ${product.quantity} x $${product.price} = $${(product.quantity * product.price).toFixed(2)}
+            </div>`
+        ).join('');
+
+        Swal.fire({
+            title: '¿Deseas confirmar la compra?',
+            html: `
+                <div style="max-height: 300px; overflow-y: auto;">
+                    ${productsList}
+                </div>
+                <div style="margin-top: 20px; font-size: 18px; font-weight: bold; text-align: right;">
+                    Total: $${calculateTotal().toFixed(2)}
+                </div>
+            `,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, comprar',
+            cancelButtonText: 'Cancelar',
+            width: '600px'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    '¡Compra realizada!',
+                    'Gracias por tu compra.',
+                    'success'
+                );
+            }
+        });
     }
 
     return (
@@ -67,7 +103,9 @@ const Cart = () => {
             </div>
             
             <div className="mt-6 flex justify-end">
-                <button className="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600">
+                <button 
+                    onClick={handlerPurchase}
+                    className="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600">
                     Comprar
                 </button>
             </div>
