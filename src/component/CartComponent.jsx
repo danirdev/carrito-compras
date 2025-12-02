@@ -1,18 +1,32 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
+import { CartContext } from '../context/CartContext';
 
-const CartComponent = ({title, image, price, description}) => {
+const CartComponent = ({id, title, image, price, description, handlerAdd, handlerRemove}) => {
 
-      const [added, setAdded] = useState(false)
+    const {shoppingList} = useContext(CartContext);
 
-      const addProduct = () => {
-          setAdded(true)
-      }
+    const [added, setAdded] = useState(false)
 
-      const removeProduct = () => {
-          setAdded(false)
-      }
+    const addProduct = () => {
+        handlerAdd()
+        setAdded(true)
+    }
 
-      return (
+    const removeProduct = () => {
+        handlerRemove()
+        setAdded(false)
+    }
+
+    const checkAdded = () => {
+        const exists = shoppingList.find(item => item.id === id)
+        setAdded(exists)
+    }
+
+    useEffect(() => {
+        checkAdded()
+    }, [])
+
+    return (
         <div className="border rounded-lg p-4 flex flex-col">      
             <img src={image} alt={title} className="h-48 w-full object-contain mb-4" />
             <h2 className="text-lg font-semibold mb-2">{title}</h2>
@@ -34,7 +48,8 @@ const CartComponent = ({title, image, price, description}) => {
                 </button>
             )}
         </div>
-      )
-    }
+    )
+    
+}
 
 export default CartComponent

@@ -1,10 +1,12 @@
 import React, {useContext} from 'react'
 import CartComponent from '../component/CartComponent';
 import {ProductContext} from '../context/ProductContext';
+import { CartContext } from '../context/CartContext';
 
 const Products = () => {
 
     const {products} = useContext(ProductContext)
+    const {addProduct, removeProduct} = useContext(CartContext)
 
     return (
         <>
@@ -16,10 +18,13 @@ const Products = () => {
             {products.map(product => (
                 <CartComponent
                     key={product.id}
+                    id={product.id}
                     title={product.title}
                     image={product.image}
                     price={product.price}
                     description={product.description}
+                    handlerAdd={() => addProduct(product)}
+                    handlerRemove={() => removeProduct(product.id)}
                 />
             ))}
         </div>      
