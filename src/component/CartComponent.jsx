@@ -35,8 +35,8 @@ const CartComponent = ({id, title, image, price, description, handlerAdd, handle
                     className="max-h-full max-w-full object-contain" 
                 />
             </div>
-            <div className="flex-grow flex flex-col">
-                <h2 className="text-lg font-semibold mb-2 line-clamp-2 min-h-[3.5rem]">
+            <div className="grow flex flex-col">
+                <h2 className="text-lg font-semibold mb-2 line-clamp-2 min-h-14">
                     {title}
                 </h2>
                 
@@ -44,7 +44,7 @@ const CartComponent = ({id, title, image, price, description, handlerAdd, handle
                     ${price}
                 </p>
                 
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-grow">
+                <p className="text-gray-600 text-sm mb-4 line-clamp-3 grow">
                     {description}
                 </p>
             </div>
